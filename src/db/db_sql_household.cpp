@@ -40,11 +40,13 @@
 
 ObjectDbSqlHousehold::ObjectDbSqlHousehold()
 {
+  std::cout << "ObjectDbSqlHousehold constructed" << std::endl;
 }
 
 void
 ObjectDbSqlHousehold::set_parameters(ObjectDbParameters & in_parameters)
 {
+  std::cout << "ObjectDbSqlHousehold::set_parameters" << std::endl;
   ObjectDbParametersRaw parameters = in_parameters.raw();
   // Read the parameters
   for (ObjectDbParametersRaw::const_iterator iter = parameters.begin(), end = parameters.end(); iter != end; ++iter)
@@ -75,6 +77,7 @@ ObjectDbSqlHousehold::set_parameters(ObjectDbParameters & in_parameters)
   parameters_ = in_parameters;
 
   // Create the DB object
+  std::cout << "Creating new database ..." << std::endl;
   db_.reset(new household_objects_database::ObjectsDatabase(parameters.at("host").get_str(), parameters.at("port").get_str(),
                                                       parameters.at("user").get_str(),
                                                       parameters.at("password").get_str(),

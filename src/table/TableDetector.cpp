@@ -52,6 +52,7 @@ namespace tabletop
     static void
     declare_params(ecto::tendrils& params)
     {
+      std::cout << "Initialising Table Detector ..." << std::endl;
       params.declare(&TableDetector::min_table_size_, "min_table_size",
                      "The minimum number of points deemed necessary to find a table.", 10000);
       params.declare(&TableDetector::plane_threshold_, "plane_threshold",
@@ -64,6 +65,7 @@ namespace tabletop
     static void
     declare_io(const tendrils& params, tendrils& inputs, tendrils& outputs)
     {
+      std::cout << "TableDetector::declare_io ... " << std::endl;
       inputs.declare(&TableDetector::points3d_, "points3d", "The 3dpoints as a cv::Mat_<cv::Vec3f>").required();
       inputs.declare(&TableDetector::K_, "K", "The calibration matrix").required();
 
@@ -76,6 +78,7 @@ namespace tabletop
     void
     configure(const tendrils& params, const tendrils& inputs, const tendrils& outputs)
     {
+      std::cout << "TableDetector::configure ... " << std::endl;
       ros::NodeHandle nh("~");
       nh.param("filter_planes", filter_planes_, true);
       nh.param("min_table_height", min_table_height_, 0.5);
@@ -107,6 +110,7 @@ namespace tabletop
   int
   process(const tendrils& inputs, const tendrils& outputs)
   {
+    std::cout << "TableDetector::process ... " << std::endl;
     clouds_hull_->clear();
     table_coefficients_->clear();
     if (!filter_planes_ || tf_->waitForTransform(robot_frame_id_, sensor_frame_id_, ros::Time(0), ros::Duration(0.5)))
@@ -152,8 +156,13 @@ namespace tabletop
           double dist_ = normal_.dot (origin) - dist;
           if (normal_.dot(axis_) >= min_angle_cos_ && dist_ >= min_table_height_ && dist_ <= max_table_height_)
           {
+            std::cout << "valid plane found" << std::endl;
             valid_planes [pIdx] = true;
             ++valid_plane_count;
+          }
+          else
+          {
+            std::cout << "plane invalid (angle = " << normal_.dot(axis_) << ", dist = " << dist_ << ")"<< std::endl;
           }
         }
       }

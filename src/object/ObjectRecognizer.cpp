@@ -105,6 +105,7 @@ namespace tabletop
     void
     ParameterCallback(const std::string &model_set)
     {
+      std::cout << "ObjectRecognizer::ParameterCallback ... " << std::endl;
       //std::vector<object_recognition_core::db::ModelId> object_ids;
 
       //boost::python::stl_input_iterator<std::string> begin(python_object_ids), end;
@@ -132,6 +133,7 @@ namespace tabletop
         shape_msgs::Mesh mesh;
 
         std::cout << "Loading model: " << model_id;
+        std::cout << "Loading model: " << models[i]->model_.data();
         if (!database->getScaledModelMesh(model_id, mesh)) {
           std::cout << "  ... Failed" << std::endl;
           continue;
@@ -147,6 +149,7 @@ namespace tabletop
   }
 
   static void declare_params(ecto::tendrils& params) {
+    std::cout << "Initialising Object recognizer ... " << std::endl;
     params.declare(
         &ObjectRecognizer::object_ids_, "json_object_ids",
         "The DB id of the objects to load in the household database.");
@@ -161,6 +164,7 @@ namespace tabletop
     static void
     declare_io(const tendrils& params, tendrils& inputs, tendrils& outputs)
     {
+      std::cout << "ObjectRecognizer::declare_io ... " << std::endl;
       inputs.declare(&ObjectRecognizer::clusters_, "clusters3d", "The object clusters.").required(true);
       inputs.declare(&ObjectRecognizer::table_coefficients_, "table_coefficients", "The coefficients of planar surfaces.").required(true);
 
@@ -170,6 +174,7 @@ namespace tabletop
     void
     configure(const tendrils& params, const tendrils& inputs, const tendrils& outputs)
     {
+      std::cout << "ObjectRecognizer::configure ... " << std::endl;
       tabletop_object_ids_.set_callback(boost::bind(&ObjectRecognizer::ParameterCallback, this, _1));
       tabletop_object_ids_.dirty(true);
 
@@ -185,6 +190,7 @@ namespace tabletop
     int
     process(const tendrils& inputs, const tendrils& outputs)
     {
+      std::cout << "ObjectRecognizer::process ... " << std::endl;
       std::vector<tabletop_object_detector::TabletopObjectRecognizer<pcl::PointXYZ>::TabletopResult > results;
 
       // Process each table

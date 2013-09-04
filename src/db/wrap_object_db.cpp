@@ -50,6 +50,7 @@ namespace object_recognition_core
     ObjectDbPtr
     ObjectDbSqlHouseholdConstructor(const ObjectDbParameters & db_params)
     {
+      std::cout << "ObjectDbSqlHouseholdConstructor" << std::endl;
       // Create the ObjectDbSqlHousehold
       ObjectDbPtr db_ptr(new ObjectDbSqlHousehold);
       ObjectDbParameters db_params_tmp = db_params;

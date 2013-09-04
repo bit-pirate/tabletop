@@ -12,6 +12,7 @@ import ecto
 
 class TabletopTableDetector(ecto.BlackBox, DetectorBase):
     def __init__(self, *args, **kwargs):
+        print "Initialising TabletopTableDetector"
         ecto.BlackBox.__init__(self, *args, **kwargs)
         DetectorBase.__init__(self, do_check_object_ids=False, do_check_db=False)
 
@@ -53,6 +54,7 @@ class TabletopTableDetector(ecto.BlackBox, DetectorBase):
 class TabletopObjectDetector(ecto.BlackBox, DetectorBase):
 
     def __init__(self, *args, **kwargs):
+        print "Initialising TabletopObjectDetector"
         ecto.BlackBox.__init__(self, *args, **kwargs)
         DetectorBase.__init__(self)
 
